@@ -150,6 +150,8 @@ class TableBase(object):
         :param kwargs: name and value of columns
         """
         for k, v in kwargs.items():
+            if k == "_score":
+                continue
             try:
                 object.__getattribute__(self.__class__, k)
             except AttributeError:

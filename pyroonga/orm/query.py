@@ -122,18 +122,19 @@ class QueryOptionsMixin(object):
 
     def _makesortby(self):
         if self._sortby:
-            keys = ['-' * key._desc + key.name for key in self._sortby]
-            return '%s %s' % (self.__options__['sortby'], ','.join(keys))
+            keys = ','.join(['-' * key._desc + key.name for key in self._sortby])
+            keys = "'-_score, " + keys + "'"
+            return '%s %s' % (self.__options__['sortby'], keys)
         else:
-            return ''
+            return '%s -_score' % self.__options__['sortby']
 
     def _makeoutput_columns(self):
         if self._output_columns:
-            cols = [col.name for col in self._output_columns]
-            return '%s %s' % (self.__options__['output_columns'],
-                              ','.join(cols))
+            cols = ','.join([col.name for col in self._output_columns])
+            cols = "'_score, " + cols + "'"
+            return '%s %s' % (self.__options__['output_columns'], cols)
         else:
-            return ''
+            return '%s _score' % self.__options__['output_columns']
 
     def _condition(self):
         return '%(limit)s %(offset)s %(sortby)s %(output_columns)s' % \
