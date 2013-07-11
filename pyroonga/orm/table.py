@@ -193,7 +193,7 @@ class TableBase(object):
         table_queries  = []
         column_queries = []
         for tbl in cls._tables:
-            table_queries.append(str(tbl))
+            table_queries.append(str(tbl) + " --default_tokenizer TokenMecab")
             column_queries.extend(str(col) for col in tbl.columns)
         for queries in (table_queries, column_queries):
             for query in queries:
